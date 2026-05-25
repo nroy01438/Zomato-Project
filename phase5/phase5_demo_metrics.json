@@ -1,0 +1,143 @@
+{
+  "export_timestamp": "2026-04-29T20:02:01.192103",
+  "metrics": [
+    {
+      "timestamp": "2026-04-29T20:02:01.190825",
+      "metric_name": "recommendation_latency",
+      "value": 1850.5,
+      "unit": "ms",
+      "component": "llm",
+      "context": null
+    },
+    {
+      "timestamp": "2026-04-29T20:02:01.190829",
+      "metric_name": "requests_throughput",
+      "value": 2.3,
+      "unit": "req/s",
+      "component": "api",
+      "context": null
+    },
+    {
+      "timestamp": "2026-04-29T20:02:01.190831",
+      "metric_name": "success_rate",
+      "value": 0.97,
+      "unit": "%",
+      "component": "llm",
+      "context": {
+        "window_minutes": 60
+      }
+    },
+    {
+      "timestamp": "2026-04-29T20:02:01.190833",
+      "metric_name": "memory_usage",
+      "value": 384.2,
+      "unit": "MB",
+      "component": "orchestrator",
+      "context": null
+    },
+    {
+      "timestamp": "2026-04-29T20:02:01.190835",
+      "metric_name": "cpu_usage",
+      "value": 45.8,
+      "unit": "%",
+      "component": "orchestrator",
+      "context": null
+    },
+    {
+      "timestamp": "2026-04-29T20:02:01.191934",
+      "metric_name": "avg_relevance_score",
+      "value": 80,
+      "unit": "score",
+      "component": "llm_orchestrator",
+      "context": null
+    },
+    {
+      "timestamp": "2026-04-29T20:02:01.191939",
+      "metric_name": "relevance_score_std",
+      "value": 13.228756555322953,
+      "unit": "score",
+      "component": "llm_orchestrator",
+      "context": null
+    },
+    {
+      "timestamp": "2026-04-29T20:02:01.191946",
+      "metric_name": "ranking_consistency",
+      "value": 1.0,
+      "unit": "score",
+      "component": "llm_orchestrator",
+      "context": {
+        "expected_ranks": [
+          1,
+          2,
+          3
+        ],
+        "actual_ranks": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-04-29T20:02:01.191962",
+      "metric_name": "avg_explanation_length",
+      "value": 66.66666666666667,
+      "unit": "chars",
+      "component": "llm_orchestrator",
+      "context": null
+    },
+    {
+      "timestamp": "2026-04-29T20:02:01.191964",
+      "metric_name": "constraint_satisfaction_rate",
+      "value": 0.75,
+      "unit": "%",
+      "component": "system",
+      "context": null
+    },
+    {
+      "timestamp": "2026-04-29T20:02:01.192002",
+      "metric_name": "cuisine_diversity",
+      "value": 0.75,
+      "unit": "ratio",
+      "component": "system",
+      "context": null
+    },
+    {
+      "timestamp": "2026-04-29T20:02:01.192015",
+      "metric_name": "price_diversity",
+      "value": 0.9090909090909091,
+      "unit": "ratio",
+      "component": "system",
+      "context": null
+    }
+  ],
+  "system_overview": {
+    "uptime_hours": 4.0277777777777773e-07,
+    "total_metrics": 12,
+    "components": [
+      "llm",
+      "api",
+      "orchestrator",
+      "llm_orchestrator",
+      "system"
+    ],
+    "metric_types": [
+      "cpu_usage",
+      "price_diversity",
+      "cuisine_diversity",
+      "relevance_score_std",
+      "avg_relevance_score",
+      "ranking_consistency",
+      "constraint_satisfaction_rate",
+      "success_rate",
+      "avg_explanation_length",
+      "memory_usage",
+      "requests_throughput",
+      "recommendation_latency"
+    ],
+    "data_collection_period": {
+      "start": "2026-04-29T20:02:01.190823",
+      "end": "2026-04-29T20:02:01.192280"
+    }
+  }
+}

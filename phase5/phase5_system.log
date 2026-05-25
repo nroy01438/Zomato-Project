@@ -1,0 +1,28 @@
+2026-04-29 19:55:26,813 - retrieval - INFO - Starting candidate filtering | Data: {"total_candidates": 15, "filters_applied": ["location", "rating", "cuisine"]}
+2026-04-29 19:55:26,813 - phase5.offline_checks - INFO - Running offline checks for recommendation quality
+2026-04-29 19:55:26,813 - phase3.orchestrator - INFO - Initialized RecommendationOrchestrator with mock provider
+2026-04-29 19:55:26,813 - phase3.orchestrator - INFO - Built ranking prompt for 2 candidates
+2026-04-29 19:55:26,813 - phase3.llm_client - INFO - Generating response using mock provider
+2026-04-29 19:55:26,915 - phase3.llm_client - INFO - Response generated successfully
+2026-04-29 19:55:26,917 - phase3.output_validator - INFO - Valid response obtained on attempt 1
+2026-04-29 19:55:26,917 - phase3.orchestrator - INFO - Generated recommendations after 1 attempt(s)
+2026-04-29 19:55:26,917 - phase3.orchestrator - INFO - Built ranking prompt for 3 candidates
+2026-04-29 19:55:26,917 - phase3.llm_client - INFO - Generating response using mock provider
+2026-04-29 19:55:27,017 - phase3.llm_client - INFO - Response generated successfully
+2026-04-29 19:55:27,018 - phase3.output_validator - INFO - Valid response obtained on attempt 1
+2026-04-29 19:55:27,018 - phase3.orchestrator - INFO - Generated recommendations after 1 attempt(s)
+2026-04-29 19:55:27,018 - phase3.orchestrator - INFO - Built ranking prompt for 2 candidates
+2026-04-29 19:55:27,018 - phase3.llm_client - INFO - Generating response using mock provider
+2026-04-29 19:55:27,119 - phase3.llm_client - INFO - Response generated successfully
+2026-04-29 19:55:27,120 - phase3.output_validator - INFO - Valid response obtained on attempt 1
+2026-04-29 19:55:27,120 - phase3.orchestrator - INFO - Generated recommendations after 1 attempt(s)
+2026-04-29 19:55:27,120 - phase3.orchestrator - INFO - Built ranking prompt for 3 candidates
+2026-04-29 19:55:27,120 - phase3.llm_client - INFO - Generating response using mock provider
+2026-04-29 19:55:27,221 - phase3.llm_client - INFO - Response generated successfully
+2026-04-29 19:55:27,221 - phase3.output_validator - INFO - Valid response obtained on attempt 1
+2026-04-29 19:55:27,221 - phase3.orchestrator - INFO - Generated recommendations after 1 attempt(s)
+2026-04-29 19:55:27,222 - phase3.orchestrator - INFO - Built ranking prompt for 1 candidates
+2026-04-29 19:55:27,222 - phase3.llm_client - INFO - Generating response using mock provider
+2026-04-29 19:55:27,323 - phase3.llm_client - INFO - Response generated successfully
+2026-04-29 19:55:27,323 - phase3.output_validator - INFO - Valid response obtained on attempt 1
+2026-04-29 19:55:27,324 - phase3.orchestrator - INFO - Generated recommendations after 1 attempt(s)

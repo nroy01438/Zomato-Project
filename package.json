@@ -1,0 +1,13 @@
+{
+  "name": "ai-restaurant-recommender",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node phases/phase0/src/server.js",
+    "start": "NODE_ENV=production node phases/phase0/src/server.js",
+    "test:phase0": "node --test phases/phase0/tests/*.test.js"
+  },
+  "dependencies": {}
+}
+

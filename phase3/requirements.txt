@@ -1,0 +1,13 @@
+# Phase 3 LLM Orchestration Dependencies
+
+# Core dependencies
+pydantic>=2.0.0
+asyncio-compat>=0.1.0
+
+# LLM Provider SDKs (optional - install as needed)
+# openai>=1.0.0  # Uncomment for OpenAI provider
+# anthropic>=0.8.0  # Uncomment for Anthropic provider
+
+# Development and testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0

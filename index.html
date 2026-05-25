@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <section class="login-card" aria-labelledby="login-title">
+      <div class="login-header">
+        <p class="eyebrow">Welcome back</p>
+        <h1 id="login-title">Sign in to your account</h1>
+        <p class="subtitle">Enter your email and password to continue.</p>
+      </div>
+
+      <form class="login-form" id="loginForm" novalidate>
+        <label class="field">
+          <span>Email</span>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="name@example.com"
+            required
+          >
+        </label>
+
+        <label class="field">
+          <span>Password</span>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Enter your password"
+            minlength="6"
+            required
+          >
+        </label>
+
+        <div class="form-row">
+          <label class="remember-me">
+            <input type="checkbox" name="remember">
+            <span>Remember me</span>
+          </label>
+          <a href="#" class="link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="submit-button">Login</button>
+        <p id="formMessage" class="form-message" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

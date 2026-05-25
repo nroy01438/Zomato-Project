@@ -1,0 +1,45 @@
+# Phase 6 - Production Backend Dependencies
+
+# Core dependencies
+pydantic>=2.0.0
+asyncio-compat>=0.1.0
+
+# Database dependencies
+psycopg2-binary>=2.9.0  # PostgreSQL
+sqlite3  # Built-in
+
+# Caching dependencies
+redis>=4.5.0  # Redis client
+pymemcache>=4.0.0  # Memcached client
+
+# Authentication and security
+PyJWT>=2.8.0  # JWT tokens
+bcrypt>=4.0.0  # Password hashing
+cryptography>=3.4.0  # Additional crypto functions
+
+# HTTP and networking
+aiohttp>=3.8.0  # Async HTTP client
+requests>=2.28.0  # Sync HTTP client
+
+# System monitoring
+psutil>=5.9.0  # System resource monitoring
+
+# Load balancing and scaling
+nginx  # External dependency for actual load balancing
+
+# Development and testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.0.0
+
+# Documentation and examples
+rich>=12.0.0  # Beautiful CLI output
+click>=8.0.0  # CLI interfaces
+
+# Optional: Production monitoring
+prometheus-client>=0.14.0  # Metrics export
+grafana-api>=1.0.3  # Dashboard integration
+
+# Optional: Advanced caching
+memcached  # Memcached server
+redis-server  # Redis server

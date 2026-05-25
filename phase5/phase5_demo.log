@@ -1,0 +1,37 @@
+2026-04-29 19:55:26,813 - retrieval - INFO - Starting candidate filtering | Data: {"total_candidates": 15, "filters_applied": ["location", "rating", "cuisine"]}
+2026-04-29 19:55:26,813 - phase5.offline_checks - INFO - Running offline checks for recommendation quality
+2026-04-29 19:55:26,813 - phase3.orchestrator - INFO - Initialized RecommendationOrchestrator with mock provider
+2026-04-29 19:55:26,813 - phase3.orchestrator - INFO - Built ranking prompt for 2 candidates
+2026-04-29 19:55:26,813 - phase3.llm_client - INFO - Generating response using mock provider
+2026-04-29 19:55:26,915 - phase3.llm_client - INFO - Response generated successfully
+2026-04-29 19:55:26,917 - phase3.output_validator - INFO - Valid response obtained on attempt 1
+2026-04-29 19:55:26,917 - phase3.orchestrator - INFO - Generated recommendations after 1 attempt(s)
+2026-04-29 19:55:26,917 - phase3.orchestrator - INFO - Built ranking prompt for 3 candidates
+2026-04-29 19:55:26,917 - phase3.llm_client - INFO - Generating response using mock provider
+2026-04-29 19:55:27,017 - phase3.llm_client - INFO - Response generated successfully
+2026-04-29 19:55:27,018 - phase3.output_validator - INFO - Valid response obtained on attempt 1
+2026-04-29 19:55:27,018 - phase3.orchestrator - INFO - Generated recommendations after 1 attempt(s)
+2026-04-29 19:55:27,018 - phase3.orchestrator - INFO - Built ranking prompt for 2 candidates
+2026-04-29 19:55:27,018 - phase3.llm_client - INFO - Generating response using mock provider
+2026-04-29 19:55:27,119 - phase3.llm_client - INFO - Response generated successfully
+2026-04-29 19:55:27,120 - phase3.output_validator - INFO - Valid response obtained on attempt 1
+2026-04-29 19:55:27,120 - phase3.orchestrator - INFO - Generated recommendations after 1 attempt(s)
+2026-04-29 19:55:27,120 - phase3.orchestrator - INFO - Built ranking prompt for 3 candidates
+2026-04-29 19:55:27,120 - phase3.llm_client - INFO - Generating response using mock provider
+2026-04-29 19:55:27,221 - phase3.llm_client - INFO - Response generated successfully
+2026-04-29 19:55:27,221 - phase3.output_validator - INFO - Valid response obtained on attempt 1
+2026-04-29 19:55:27,221 - phase3.orchestrator - INFO - Generated recommendations after 1 attempt(s)
+2026-04-29 19:55:27,222 - phase3.orchestrator - INFO - Built ranking prompt for 1 candidates
+2026-04-29 19:55:27,222 - phase3.llm_client - INFO - Generating response using mock provider
+2026-04-29 19:55:27,323 - phase3.llm_client - INFO - Response generated successfully
+2026-04-29 19:55:27,323 - phase3.output_validator - INFO - Valid response obtained on attempt 1
+2026-04-29 19:55:27,324 - phase3.orchestrator - INFO - Generated recommendations after 1 attempt(s)
+2026-04-29 19:59:38,252 - evaluation - INFO - Phase 5 demonstration started | Data: {"demo_type": "comprehensive"}
+2026-04-29 19:59:48,736 - evaluation - INFO - Phase 5 demonstration started | Data: {"demo_type": "comprehensive"}
+2026-04-29 20:01:46,395 - evaluation - INFO - Phase 5 demonstration started | Data: {"demo_type": "comprehensive"}
+2026-04-29 20:01:46,396 - llm - INFO - Prompt SUCCESS - demo_prompt_001 | Data: {"prompt_id": "demo_prompt_001", "prompt_version": "v1.0", "llm_provider": "groq", "model": "llama-3.1-8b-instant", "token_count": 128, "response_time_ms": 1850, "success": true, "error_message": null}
+2026-04-29 20:01:46,396 - api - INFO - API POST /recommend: 200 | Data: {"request_id": "req_000001", "method": "POST", "endpoint": "/recommend", "request_data": "{'location': 'Test City', 'budget': 'Medium'}", "response_status": 200, "response_time_ms": 245, "user_id": "demo_user"}
+2026-04-29 20:02:01,190 - evaluation - INFO - Phase 5 demonstration started | Data: {"demo_type": "comprehensive"}
+2026-04-29 20:02:01,190 - llm - INFO - Prompt SUCCESS - demo_prompt_001 | Data: {"prompt_id": "demo_prompt_001", "prompt_version": "v1.0", "llm_provider": "groq", "model": "llama-3.1-8b-instant", "token_count": 128, "response_time_ms": 1850, "success": true, "error_message": null}
+2026-04-29 20:02:01,190 - api - INFO - API POST /recommend: 200 | Data: {"request_id": "req_000001", "method": "POST", "endpoint": "/recommend", "request_data": "{'location': 'Test City', 'budget': 'Medium'}", "response_status": 200, "response_time_ms": 245, "user_id": "demo_user"}
+2026-04-29 20:02:01,191 - phase5.offline_checks - INFO - Running offline checks for recommendation quality

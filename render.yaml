@@ -1,0 +1,27 @@
+# Render blueprint — restaurant recommendation API
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: restaurant-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: >-
+      gunicorn backend.app:app
+      -k uvicorn.workers.UvicornWorker
+      --bind 0.0.0.0:$PORT
+      --workers 1
+      --timeout 120
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: LLM_PROVIDER
+        value: groq
+      - key: DATA_CSV_PATH
+        value: phase1/data/processed/restaurants_processed.csv
+      - key: ALLOWED_ORIGINS
+        value: http://localhost:3000,http://127.0.0.1:3000
+      - key: GROQ_API_KEY
+        sync: false

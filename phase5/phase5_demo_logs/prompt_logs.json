@@ -1,0 +1,14 @@
+[
+  {
+    "timestamp": "2026-04-29T20:02:01.190606",
+    "prompt_id": "demo_prompt_001",
+    "prompt_version": "v1.0",
+    "llm_provider": "groq",
+    "model": "llama-3.1-8b-instant",
+    "prompt_text": "Find restaurants in Test City with Test Cuisine and 4.0+ rating",
+    "token_count": 128,
+    "response_time_ms": 1850,
+    "success": true,
+    "error_message": null
+  }
+]

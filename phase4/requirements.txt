@@ -1,0 +1,18 @@
+# Phase 4 Presentation Layer Dependencies
+
+# Web framework
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# Phase 3 dependencies (for integration)
+pydantic>=2.0.0
+
+# LLM Provider SDKs (optional - install as needed)
+# groq>=0.4.0  # Uncomment for Groq provider
+# openai>=1.0.0  # Uncomment for OpenAI provider
+# anthropic>=0.8.0  # Uncomment for Anthropic provider
+
+# Development and testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+requests>=2.28.0

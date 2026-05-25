@@ -1,0 +1,14 @@
+{
+  "total_prompts": 1,
+  "successful_prompts": 1,
+  "failed_prompts": 0,
+  "success_rate": 1.0,
+  "avg_response_time_ms": 1850.0,
+  "total_tokens": 128,
+  "provider_breakdown": {
+    "groq": 1
+  },
+  "prompt_version_distribution": {
+    "v1.0": 1
+  }
+}
