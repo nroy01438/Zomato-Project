@@ -20,7 +20,12 @@ export ALLOWED_ORIGINS=http://localhost:3000
 
 uvicorn backend.app:app --reload --port 5000
 # or
-gunicorn backend.app:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:5000 --timeout 120
+python -m uvicorn backend.app:app --host 0.0.0.0 --port 5000
+```
+
+**Render (recommended start command):**
+```bash
+python -m uvicorn backend.app:app --host 0.0.0.0 --port $PORT
 ```
 
 ## Environment variables

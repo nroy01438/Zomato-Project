@@ -1,0 +1,2 @@
+# Root requirements for Render / pip (points to backend API)
+-r backend/requirements.txt

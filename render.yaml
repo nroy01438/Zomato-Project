@@ -6,13 +6,8 @@ services:
     name: restaurant-api
     runtime: python
     plan: free
-    buildCommand: pip install -r backend/requirements.txt
-    startCommand: >-
-      gunicorn backend.app:app
-      -k uvicorn.workers.UvicornWorker
-      --bind 0.0.0.0:$PORT
-      --workers 1
-      --timeout 120
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: python -m uvicorn backend.app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION
@@ -22,6 +17,6 @@ services:
       - key: DATA_CSV_PATH
         value: phase1/data/processed/restaurants_processed.csv
       - key: ALLOWED_ORIGINS
-        value: http://localhost:3000,http://127.0.0.1:3000
+        value: https://your-app.vercel.app,http://localhost:3000
       - key: GROQ_API_KEY
         sync: false
