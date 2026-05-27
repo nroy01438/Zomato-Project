@@ -44,20 +44,22 @@ export interface UserPreferences {
 
 export interface SearchParams {
   location: string;
-  budget?: string;
-  cuisine?: string;
-  min_rating?: number;
-  features?: string[];
-  sort_by?: "ai_recommended" | "rating" | "price_low" | "price_high" | "distance";
+  budget: number;
+  cuisine: string;
+  min_rating: number;
+  additional_preferences?: string;
 }
 
 export interface SearchResult {
-  restaurants: Restaurant[];
-  total_count: number;
-  page: number;
-  per_page: number;
-  search_id: string;
+  summary: string;
+  rankings: Restaurant[];
+  total_results: number;
+  suggestions: string[];
   processing_time_ms: number;
+}
+
+export interface LocationsResponse {
+  locations: string[];
 }
 
 export interface AuthToken {

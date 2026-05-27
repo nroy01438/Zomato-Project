@@ -12,6 +12,7 @@ import {
   HealthStatus,
   RateLimitInfo,
   ApiError,
+  LocationsResponse,
 } from "@/types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -28,15 +29,17 @@ class ApiClient {
       headers: {
         "Content-Type": "application/json",
       },
-      timeout: 30000,
+      timeout: 120000,
     });
 
     // Request interceptor for auth token
     this.client.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem("access_token");
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
+        if (typeof window !== "undefined") {
+          const token = localStorage.getItem("access_token");
+          if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+          }
         }
         return config;
       },
@@ -49,11 +52,14 @@ class ApiClient {
       async (error: AxiosError) => {
         if (error.response?.status === 401) {
           // Token expired, try to refresh
-          const refreshToken = localStorage.getItem("refresh_token");
+          const refreshToken =
+            typeof window !== "undefined" ? localStorage.getItem("refresh_token") : null;
           if (refreshToken) {
             try {
               const response = await this.refreshToken(refreshToken);
-              localStorage.setItem("access_token", response.access_token);
+              if (typeof window !== "undefined") {
+                localStorage.setItem("access_token", response.access_token);
+              }
               
               // Retry original request
               const originalRequest = error.config;
@@ -63,9 +69,11 @@ class ApiClient {
               }
             } catch {
               // Refresh failed, logout
-              localStorage.removeItem("access_token");
-              localStorage.removeItem("refresh_token");
-              window.location.href = "/auth/login";
+              if (typeof window !== "undefined") {
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("refresh_token");
+                window.location.href = "/auth/login";
+              }
             }
           }
         }
@@ -77,6 +85,12 @@ class ApiClient {
   // Health check
   async getHealth(): Promise<HealthStatus> {
     const response = await this.client.get("/health");
+    return response.data;
+  }
+
+  // Locations (from dataset city column)
+  async getLocations(): Promise<LocationsResponse> {
+    const response = await this.client.get("/locations");
     return response.data;
   }
 
@@ -95,12 +109,14 @@ class ApiClient {
   }
 
   async logout(): Promise<void> {
-    const token = localStorage.getItem("access_token");
+    const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
     if (token) {
       await this.client.post("/auth/logout", { access_token: token });
     }
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+    }
   }
 
   async refreshToken(refreshToken: string): Promise<AuthToken> {
@@ -123,7 +139,48 @@ class ApiClient {
   // Restaurant Search
   async searchRestaurants(params: SearchParams): Promise<SearchResult> {
     const response = await this.client.post("/recommend", params);
-    return response.data;
+    const payload = response.data as any;
+
+    const data = payload?.data ?? {};
+    const meta = payload?.meta ?? {};
+    const rankings = Array.isArray(data.rankings) ? data.rankings : [];
+
+    const restaurants: Restaurant[] = rankings.map((r: any, idx: number) => {
+      const name = String(r?.name ?? r?.restaurant_name ?? `Restaurant ${idx + 1}`);
+      const locality = r?.locality ? String(r.locality) : "";
+      const idBase = `${name}-${locality || "unknown"}`.toLowerCase();
+      const id = idBase.replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+      const cuisinesRaw = r?.cuisines;
+      const cuisines =
+        Array.isArray(cuisinesRaw)
+          ? cuisinesRaw.map(String)
+          : typeof cuisinesRaw === "string"
+            ? cuisinesRaw.split(",").map((s: string) => s.trim()).filter(Boolean)
+            : [];
+
+      return {
+        id,
+        name,
+        cuisines,
+        rating: typeof r?.rating === "number" ? r.rating : Number(r?.rating ?? 0),
+        votes: typeof r?.votes === "number" ? r.votes : Number(r?.votes ?? 0),
+        cost_for_two:
+          typeof r?.cost_for_two === "number" ? r.cost_for_two : Number(r?.cost_for_two ?? 0),
+        location: locality,
+        explanation: r?.explanation ? String(r.explanation) : undefined,
+        ai_recommended: true,
+      };
+    });
+
+    return {
+      summary: String(data.summary ?? ""),
+      total_results: typeof data.total_results === "number" ? data.total_results : restaurants.length,
+      rankings: restaurants,
+      suggestions: Array.isArray(data.suggestions) ? data.suggestions.map(String) : [],
+      processing_time_ms:
+        typeof meta.processing_time_ms === "number" ? meta.processing_time_ms : 0,
+    };
   }
 
   async searchRestaurantsBatch(params: SearchParams[]): Promise<SearchResult[]> {

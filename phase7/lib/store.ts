@@ -59,9 +59,10 @@ export const useSearchStore = create<SearchState>()(
     (set) => ({
       params: {
         location: "",
-        budget: "Medium",
-        cuisine: "",
+        budget: 1500,
+        cuisine: "North Indian",
         min_rating: 4.0,
+        additional_preferences: "",
       },
       results: null,
       isLoading: false,

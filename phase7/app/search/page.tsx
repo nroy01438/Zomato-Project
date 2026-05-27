@@ -21,7 +21,7 @@ export default function SearchPage() {
       const response = await api.searchRestaurants(searchParams);
       setResults(response);
       
-      if (response.restaurants.length === 0) {
+      if (response.rankings.length === 0) {
         toast.info("No restaurants found. Try adjusting your filters.");
       }
     } catch (error) {
@@ -54,16 +54,22 @@ export default function SearchPage() {
           <div>
             <div className="mb-6 flex items-center justify-between">
               <h2 className="text-xl font-semibold">
-                {results.total_count} restaurants found
+                {results.total_results} restaurants found
               </h2>
               <p className="text-sm text-muted-foreground">
                 Processing time: {results.processing_time_ms}ms
               </p>
             </div>
 
-            {results.restaurants.length > 0 ? (
+            {results.summary && (
+              <div className="mb-6 rounded-xl border bg-card p-4">
+                <p className="text-sm text-muted-foreground">{results.summary}</p>
+              </div>
+            )}
+
+            {results.rankings.length > 0 ? (
               <div className="grid md:grid-cols-2 gap-6">
-                {results.restaurants.map((restaurant, index) => (
+                {results.rankings.map((restaurant, index) => (
                   <motion.div
                     key={restaurant.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -79,6 +85,13 @@ export default function SearchPage() {
                 <p className="text-muted-foreground">
                   No restaurants match your criteria. Try adjusting your filters.
                 </p>
+                {results.suggestions?.length > 0 && (
+                  <ul className="mt-4 text-sm text-muted-foreground space-y-1">
+                    {results.suggestions.map((s) => (
+                      <li key={s}>- {s}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             )}
           </div>
