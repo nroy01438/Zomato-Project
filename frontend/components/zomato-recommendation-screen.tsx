@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import { toast } from "sonner";
@@ -117,34 +116,35 @@ export function ZomatoRecommendationScreen() {
   };
 
   return (
-    <div className="relative min-h-dvh flex flex-col">
-      {/* Background from reference image */}
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <Image
-          src="/zomato-ui-reference.png"
-          alt=""
-          fill
-          className="object-cover"
-          priority
-          aria-hidden
+    <div className="relative isolate min-h-dvh flex flex-col">
+      {/* CSS-only background (reference PNG is a UI screenshot — do not use as page bg) */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 bg-neutral-900"
+        aria-hidden
+      >
+        <div
+          className="absolute inset-0 opacity-90"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(30,20,15,0.92) 0%, rgba(80,30,25,0.75) 45%, rgba(20,20,25,0.9) 100%), radial-gradient(ellipse at 30% 20%, rgba(226,55,68,0.25) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(180,90,40,0.2) 0%, transparent 45%)",
+          }}
         />
-        <div className="absolute inset-0 bg-black/45 backdrop-blur-[2px]" />
       </div>
 
       {/* Header */}
-      <header className="relative z-10 flex items-center gap-2 border-b border-white/20 bg-white/90 px-4 py-3 shadow-sm backdrop-blur-md">
+      <header className="relative z-20 flex items-center gap-2 border-b border-neutral-200 bg-white px-4 py-3 shadow-sm">
         <span className="text-2xl font-bold tracking-tight" style={{ color: ZOMATO_RED }}>
           zomato
         </span>
         <span className="text-sm font-medium text-neutral-600">Zomato AI Recommendation</span>
       </header>
 
-      {/* Main */}
-      <main className="relative z-10 flex flex-1 flex-col items-center px-4 py-8 pb-4">
+      {/* Main — z-20 + pointer-events so form is always clickable above any layers */}
+      <main className="relative z-20 flex flex-1 flex-col items-center px-4 py-8 pb-4">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-2xl rounded-2xl bg-white/95 p-6 shadow-2xl ring-1 ring-black/5 backdrop-blur-sm sm:p-8"
+          className="relative z-20 w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-neutral-200 sm:p-8"
         >
           <h1 className="mb-4 text-center text-xl font-bold text-neutral-900 sm:text-2xl">
             Find Your Perfect Meal with Zomato AI
@@ -164,7 +164,7 @@ export function ZomatoRecommendationScreen() {
             ))}
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="relative z-20 space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               {/* Location */}
               <div>
@@ -315,7 +315,7 @@ export function ZomatoRecommendationScreen() {
             {isLoading ? (
               <LoadingSkeleton count={4} />
             ) : results ? (
-              <div className="rounded-2xl bg-white/95 p-6 shadow-xl ring-1 ring-black/5">
+              <div className="rounded-2xl bg-white p-6 shadow-xl ring-1 ring-neutral-200">
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                   <h2 className="text-lg font-semibold text-neutral-900">
                     Top {results.total_results} recommendations
@@ -352,7 +352,7 @@ export function ZomatoRecommendationScreen() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 mt-auto border-t border-white/20 bg-white/90 px-4 py-4 text-center backdrop-blur-md">
+      <footer className="relative z-20 mt-auto border-t border-neutral-200 bg-white px-4 py-4 text-center">
         <p className="text-lg font-bold" style={{ color: ZOMATO_RED }}>
           zomato
         </p>
