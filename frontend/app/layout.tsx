@@ -18,9 +18,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "RestaurantFinder AI - Discover Your Perfect Dining Experience",
+  title: "Zomato AI Recommendation",
   description:
-    "AI-powered restaurant recommendations tailored to your preferences. Find the best restaurants based on location, budget, cuisine, and more.",
+    "Find your perfect meal with Zomato AI — location, cuisine, rating, budget, and preferences powered by Groq.",
   keywords: [
     "restaurant recommendations",
     "AI dining",

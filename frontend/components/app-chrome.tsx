@@ -5,7 +5,8 @@ import { Navbar } from "@/components/navbar";
 
 export function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const fullscreen = pathname === "/ai-assist";
+  const fullscreen =
+    pathname === "/" || pathname === "/search" || pathname === "/ai-assist";
 
   if (fullscreen) {
     return <>{children}</>;
