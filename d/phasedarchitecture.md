@@ -151,7 +151,7 @@ This document outlines a phase-wise architecture for the **AI‑Powered Restaura
 - **Goal**: Run the production stack on managed cloud hosts—**backend on Render**, **frontend on Vercel**—with secrets, CORS, and the Hugging Face–derived dataset available to the API at runtime.
 - **Key components**
   - **Render (backend)**: Python web service exposing REST endpoints (`/health`, `/locations`, `/recommend`) wired to Phase 1 CSV retrieval, Phase 3 Groq orchestration, and Phase 4 response formatting
-  - **Vercel (frontend)**: Next.js app (`phase7/`) calling the Render API via `NEXT_PUBLIC_API_URL`
+  - **Vercel (frontend)**: Next.js app (`frontend/`) calling the Render API via `NEXT_PUBLIC_API_URL`
   - **Environment & secrets**: `GROQ_API_KEY` on Render only; no LLM keys in Vercel public env
   - **CORS**: Allowlisted Vercel production and preview origins on the API
   - **Data on deploy**: Bundled `phase1/data/processed/restaurants_processed.csv` or Phase 1 build step in Render build command
@@ -165,7 +165,7 @@ This document outlines a phase-wise architecture for the **AI‑Powered Restaura
 
 ```mermaid
 flowchart LR
-  User[User] --> Vercel[Vercel\nphase7 Next.js]
+  User[User] --> Vercel[Vercel\nfrontend Next.js]
   Vercel -->|HTTPS| Render[Render\nPython API]
   Render --> P2[Phase 2 filter\nCSV shortlist]
   Render --> P3[Phase 3 Groq]
@@ -175,7 +175,7 @@ flowchart LR
 
 | Layer | Platform | Repo path | Primary endpoints |
 |-------|----------|-----------|-------------------|
-| Frontend | Vercel | `phase7/` | Pages: search, recommendations UI |
+| Frontend | Vercel | `frontend/` | Pages: search, recommendations UI |
 | Backend | Render | `backend/` (or `phase4` API entry) | `GET /health`, `GET /locations`, `POST /recommend` |
 
 **Depends on:** Phases 1–4 (data + retrieval + LLM + API contract); integrates with Phase 7 UI. Phase 6 auth/caching can be added on Render later without changing the Vercel split.
@@ -339,9 +339,9 @@ flowchart TD
 | **Phase 4** | Presentation Layer | UI, API, CLI interfaces | `phase4/` |
 | **Phase 5** | Evaluation & Observability | Quality checks, monitoring, logging | `phase5/` |
 | **Phase 6** | Backend Architecture | Production backend services, API, caching | `phase6/` |
-| **Phase 7** | Frontend Architecture | Production frontend, UI, user experience | `phase7/` |
+| **Phase 7** | Frontend Architecture | Production frontend, UI, user experience | `frontend/` |
 | **Phase 8** | Production Hardening | Enterprise hardening, security, scaling | `phase8/` |
-| **Phase 9** | Cloud Deployment | Render backend, Vercel frontend, env/CORS | `backend/`, `phase7/`, `d/deployment-render-vercel.md` |
+| **Phase 9** | Cloud Deployment | Render backend, Vercel frontend, env/CORS | `backend/`, `frontend/`, `d/deployment-render-vercel.md` |
 
 ### API Endpoints
 
@@ -397,7 +397,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    USER[Users] --> VERCEL[Vercel CDN\nNext.js phase7]
+    USER[Users] --> VERCEL[Vercel CDN\nNext.js frontend]
     VERCEL -->|NEXT_PUBLIC_API_URL| RENDER[Render Web Service\nPython API]
     RENDER --> CSV[(Phase 1 CSV\nHugging Face Zomato)]
     RENDER --> GROQ[Groq API]
@@ -459,7 +459,7 @@ The AI-Powered Restaurant Recommendation System is now a complete, production-re
 
 #### **Cloud Deployment** (Phase 9)
 - **Render**: Hosted Python API with Groq and processed Zomato dataset
-- **Vercel**: Hosted Next.js frontend (`phase7/`) consuming Render REST API
+- **Vercel**: Hosted Next.js frontend (`frontend/`) consuming Render REST API
 - **CORS & secrets**: API keys on backend only; frontend uses public API base URL
 - **Runbook**: `d/deployment-render-vercel.md`
 
@@ -522,7 +522,7 @@ python phase5/working_demo.py
 gunicorn backend.app:app --bind 0.0.0.0:5000 --timeout 120
 
 # Frontend — Vercel (local)
-cd phase7 && NEXT_PUBLIC_API_URL=http://localhost:5000 npm run dev
+cd frontend && NEXT_PUBLIC_API_URL=http://localhost:5000 npm run dev
 
 # Full runbook: d/deployment-render-vercel.md
 ```

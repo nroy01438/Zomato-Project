@@ -24,6 +24,6 @@ phase6_backend.log
 restaurant_recommendations.db
 
 # Next.js
-phase7/.next/
-phase7/out/
+frontend/.next/
+frontend/out/
 

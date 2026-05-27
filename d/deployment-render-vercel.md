@@ -5,7 +5,7 @@ This plan splits the **AI-Powered Restaurant Recommendation System** into:
 | Layer | Platform | What you deploy |
 |-------|----------|-----------------|
 | **Backend** | [Render](https://render.com) | Python REST API (Groq + Zomato dataset filtering) |
-| **Frontend** | [Vercel](https://vercel.com) | Next.js app (`phase7/`) |
+| **Frontend** | [Vercel](https://vercel.com) | Next.js app (`frontend/`) |
 
 **Not on Vercel:** `streamlit_app.py` is Python-only. Keep it local, put it on **Render as a second service**, or use **Streamlit Community Cloud** if you still want that UI in production.
 
@@ -16,7 +16,7 @@ This plan splits the **AI-Powered Restaurant Recommendation System** into:
 ```mermaid
 flowchart LR
   User[User browser]
-  Vercel[Vercel CDN\nNext.js phase7]
+  Vercel[Vercel CDN\nNext.js frontend]
   Render[Render Web Service\nPython API]
   Groq[Groq API]
   Data[(Processed CSV\nor SQLite)]
@@ -52,7 +52,7 @@ Before deploying, close these gaps so production matches local Streamlit behavio
 | Entrypoint | `phase4/main.py` | Single **gunicorn** (or uvicorn) entry: `backend/app.py` or `render_start.py` |
 | Dataset file | Large CSV in repo | Commit processed CSV **or** run `phase1/build_store.py` in Render **build command** |
 
-**Frontend (`phase7`):**
+**Frontend (`frontend`):**
 
 | Area | Today | Needed for Vercel |
 |------|--------|-------------------|
@@ -85,7 +85,7 @@ basic/
 │   └── restaurants_processed.csv
 ├── phase3/ … phase4/csv_candidates.py …
 ├── render.yaml                 # optional Infrastructure-as-Code
-└── phase7/                     # Vercel rootDirectory
+└── frontend/                     # Vercel rootDirectory
 ```
 
 ### 3.3 `render.yaml` (optional blueprint)
@@ -216,7 +216,7 @@ Render health check: **`/health`**
 
 ### 4.1 What to deploy
 
-- **Root directory:** `phase7` (monorepo: set in Vercel project settings).
+- **Root directory:** `frontend` (monorepo: set in Vercel project settings).
 - **Framework preset:** Next.js 14.
 - **Build command:** `npm run build` (default).
 - **Output:** Next.js default (`.next`).
@@ -225,7 +225,7 @@ Render health check: **`/health`**
 
 | Setting | Value |
 |---------|--------|
-| Root Directory | `phase7` |
+| Root Directory | `frontend` |
 | Install Command | `npm install` |
 | Build Command | `npm run build` |
 | Node.js Version | 18.x or 20.x |
@@ -240,15 +240,15 @@ No Groq key on Vercel — keys stay on Render only.
 
 ### 4.4 Frontend changes before deploy
 
-1. **`phase7/lib/api.ts`** — already uses `NEXT_PUBLIC_API_URL`; verify `searchRestaurants` body matches Render `POST /recommend` (budget as number, add `additional_preferences`).
-2. **`phase7/types/index.ts`** — extend `SearchParams` if needed.
+1. **`frontend/lib/api.ts`** — already uses `NEXT_PUBLIC_API_URL`; verify `searchRestaurants` body matches Render `POST /recommend` (budget as number, add `additional_preferences`).
+2. **`frontend/types/index.ts`** — extend `SearchParams` if needed.
 3. **Location dropdown** — fetch `GET /locations` from Render instead of hardcoded cities.
 4. **CORS errors** — fix on Render, not by proxying through Next.js unless you add `rewrites` in `next.config.js` (optional pattern below).
 
 **Optional Next.js rewrite (avoids browser CORS during dev only — prefer proper CORS on API):**
 
 ```js
-// phase7/next.config.js
+// frontend/next.config.js
 async rewrites() {
   return [
     {
@@ -301,8 +301,8 @@ Each PR preview needs Render to allow that preview origin, or use a single wildc
 
 ### Phase C — Wire Vercel frontend
 
-1. Update `phase7` to use Render URL and real API shapes.
-2. Vercel → **New Project** → import repo → **Root Directory: `phase7`**.
+1. Update `frontend` to use Render URL and real API shapes.
+2. Vercel → **New Project** → import repo → **Root Directory: `frontend`**.
 3. Set `NEXT_PUBLIC_API_URL` to Render URL.
 4. Deploy; open Vercel URL → run search end-to-end.
 
@@ -376,7 +376,7 @@ For demos, Render **Free** + Vercel **Hobby** is enough. For a stable demo, use 
 
 **Frontend (Vercel)**
 
-- [ ] Set Root Directory = `phase7`
+- [ ] Set Root Directory = `frontend`
 - [ ] Set `NEXT_PUBLIC_API_URL`
 - [ ] Fetch locations from API for Location field
 - [ ] Map search form → `POST /recommend`
@@ -403,7 +403,7 @@ gunicorn backend.app:app --bind 0.0.0.0:5000 --timeout 120
 **Local frontend:**
 
 ```bash
-cd phase7
+cd frontend
 export NEXT_PUBLIC_API_URL=http://localhost:5000
 npm run dev
 ```
@@ -421,7 +421,7 @@ python3 -m streamlit run streamlit_app.py
 | Question | Answer |
 |----------|--------|
 | Backend host? | **Render** — Python web service with `/health`, `/locations`, `/recommend` |
-| Frontend host? | **Vercel** — **`phase7`** Next.js, `NEXT_PUBLIC_API_URL` → Render |
+| Frontend host? | **Vercel** — **`frontend`** Next.js, `NEXT_PUBLIC_API_URL` → Render |
 | Dataset? | Hugging Face → Phase 1 **`restaurants_processed.csv`** on Render disk |
 | LLM? | **Groq** via Phase 3; key only on Render |
 | Biggest pre-deploy task? | Replace mock candidates in Phase 4 API with **`csv_candidates` + Groq** (same as Streamlit) |

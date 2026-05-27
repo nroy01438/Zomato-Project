@@ -44,8 +44,8 @@ Phase 7 provides a production-ready web application with:
 ## Installation
 
 ```bash
-# Navigate to phase7 directory
-cd phase7
+# Navigate to frontend directory
+cd frontend
 
 # Install dependencies
 npm install
@@ -74,7 +74,7 @@ NEXT_PUBLIC_ANALYTICS_ID=your-analytics-id
 ## Project Structure
 
 ```
-phase7/
+frontend/
 ├── app/                      # Next.js App Router
 │   ├── page.tsx             # Landing page
 │   ├── search/

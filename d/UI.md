@@ -140,7 +140,7 @@ Create a modern, visually stunning restaurant recommendation web application UI 
 
 ## Phase 7 Integration
 
-Once UI designs are generated, implement in `phase7/` directory with:
+Once UI designs are generated, implement in `frontend/` directory with:
 - Next.js 14+ App Router structure
 - Tailwind CSS configuration matching the design system
 - Component library (shadcn/ui recommended)
@@ -150,7 +150,7 @@ Once UI designs are generated, implement in `phase7/` directory with:
 ### Suggested Folder Structure:
 
 ```
-phase7/
+frontend/
 ├── app/
 │   ├── page.tsx              # Landing page
 │   ├── search/
