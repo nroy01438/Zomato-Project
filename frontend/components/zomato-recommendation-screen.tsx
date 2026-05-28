@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { MapPin, UtensilsCrossed, Star, IndianRupee } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { api } from "@/lib/api";
@@ -12,8 +12,6 @@ import { RestaurantCard } from "@/components/restaurant-card";
 import { LoadingSkeleton } from "@/components/loading-skeleton";
 
 const ZOMATO_RED = "#E23744";
-
-const quickTags = ["Italian", "Spicy", "Dessert", "North Indian", "Biryani", "Chinese"];
 
 const ratingOptions = [
   { label: "3.5+", value: 3.5 },
@@ -35,6 +33,10 @@ function inputClass(error?: boolean) {
     "w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-[#E23744] focus:ring-2 focus:ring-[#E23744]/20",
     error ? "border-red-400" : "border-neutral-200"
   );
+}
+
+function iconWrap() {
+  return "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400";
 }
 
 export function ZomatoRecommendationScreen() {
@@ -73,18 +75,6 @@ export function ZomatoRecommendationScreen() {
     return Object.keys(next).length === 0;
   };
 
-  const handleQuickTag = (tag: string) => {
-    setParams((p) => {
-      const parts = p.cuisine
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean);
-      if (parts.includes(tag)) return p;
-      return { ...p, cuisine: [...parts, tag].join(", ") };
-    });
-    setErrors((e) => ({ ...e, cuisine: undefined }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) {
@@ -116,208 +106,221 @@ export function ZomatoRecommendationScreen() {
   };
 
   return (
-    <div className="relative isolate min-h-dvh flex flex-col">
-      {/* CSS-only background (reference PNG is a UI screenshot — do not use as page bg) */}
+    <div className="relative min-h-dvh bg-neutral-950 text-white">
+      {/* Hero background (photo-like) */}
       <div
-        className="pointer-events-none absolute inset-0 -z-10 bg-neutral-900"
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=2400&q=70')",
+        }}
         aria-hidden
-      >
-        <div
-          className="absolute inset-0 opacity-90"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(30,20,15,0.92) 0%, rgba(80,30,25,0.75) 45%, rgba(20,20,25,0.9) 100%), radial-gradient(ellipse at 30% 20%, rgba(226,55,68,0.25) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(180,90,40,0.2) 0%, transparent 45%)",
-          }}
-        />
-      </div>
+      />
+      <div className="absolute inset-0 bg-black/55" aria-hidden />
 
-      {/* Header */}
-      <header className="relative z-20 flex items-center gap-2 border-b border-neutral-200 bg-white px-4 py-3 shadow-sm">
-        <span className="text-2xl font-bold tracking-tight" style={{ color: ZOMATO_RED }}>
-          zomato
-        </span>
-        <span className="text-sm font-medium text-neutral-600">Zomato AI Recommendation</span>
+      {/* Top bar */}
+      <header className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-5">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl font-extrabold tracking-tight" style={{ color: ZOMATO_RED }}>
+            zomato
+          </span>
+        </div>
+        <nav className="hidden items-center gap-6 text-sm text-white/80 md:flex">
+          <a className="hover:text-white" href="#">
+            Get the App
+          </a>
+          <a className="hover:text-white" href="#">
+            Investor Relations
+          </a>
+          <a className="hover:text-white" href="#">
+            Add restaurant
+          </a>
+          <a className="hover:text-white" href="#">
+            Log in
+          </a>
+          <a className="hover:text-white" href="#">
+            Sign up
+          </a>
+        </nav>
       </header>
 
-      {/* Main — z-20 + pointer-events so form is always clickable above any layers */}
-      <main className="relative z-20 flex flex-1 flex-col items-center px-4 py-8 pb-4">
+      {/* Content */}
+      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center px-4 pb-16 pt-4">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative z-20 w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-neutral-200 sm:p-8"
+          className="w-full max-w-4xl"
         >
-          <h1 className="mb-4 text-center text-xl font-bold text-neutral-900 sm:text-2xl">
-            Find Your Perfect Meal with Zomato AI
-          </h1>
-
-          {/* Quick tags */}
-          <div className="mb-5 flex flex-wrap justify-center gap-2">
-            {quickTags.map((tag) => (
-              <button
-                key={tag}
-                type="button"
-                onClick={() => handleQuickTag(tag)}
-                className="rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-medium text-neutral-700 transition-colors hover:border-[#E23744] hover:text-[#E23744]"
-              >
-                {tag}
-              </button>
-            ))}
+          <div className="text-center">
+            <div className="text-6xl font-black tracking-tight sm:text-7xl">
+              <span className="drop-shadow-sm">zomato</span>
+            </div>
+            <p className="mt-3 text-xl text-white/90 sm:text-2xl">
+              Discover the perfect dining experience
+              <br className="hidden sm:block" /> using AI
+            </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="relative z-20 space-y-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              {/* Location */}
-              <div>
-                <FieldLabel required>Location</FieldLabel>
-                {locations.length > 0 ? (
-                  <select
-                    required
-                    value={params.location}
-                    onChange={(e) => {
-                      setParams({ ...params, location: e.target.value });
-                      setErrors((er) => ({ ...er, location: undefined }));
-                    }}
-                    className={inputClass(!!errors.location)}
-                  >
-                    <option value="" disabled>
-                      Select area (e.g. Basavanagudi)
-                    </option>
-                    {locations.map((loc) => (
-                      <option key={loc} value={loc}>
-                        {loc}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <input
-                    required
-                    type="text"
-                    placeholder="Basavanagudi"
-                    value={params.location}
-                    onChange={(e) => {
-                      setParams({ ...params, location: e.target.value });
-                      setErrors((er) => ({ ...er, location: undefined }));
-                    }}
-                    className={inputClass(!!errors.location)}
-                  />
-                )}
-                {errors.location && (
-                  <p className="mt-1 text-xs text-red-600">{errors.location}</p>
-                )}
-              </div>
-
-              {/* Cuisine */}
-              <div>
-                <FieldLabel required>Cuisine</FieldLabel>
-                <input
-                  required
-                  type="text"
-                  placeholder="e.g. North Indian, Biryani"
-                  value={params.cuisine}
-                  onChange={(e) => {
-                    setParams({ ...params, cuisine: e.target.value });
-                    setErrors((er) => ({ ...er, cuisine: undefined }));
-                  }}
-                  className={inputClass(!!errors.cuisine)}
-                />
-                {errors.cuisine && (
-                  <p className="mt-1 text-xs text-red-600">{errors.cuisine}</p>
-                )}
-              </div>
-
-              {/* Budget */}
-              <div>
-                <FieldLabel required>Budget</FieldLabel>
-                <input
-                  required
-                  type="number"
-                  min={100}
-                  step={100}
-                  placeholder="e.g. 1000 (max ₹ for two)"
-                  value={params.budget || ""}
-                  onChange={(e) => {
-                    setParams({ ...params, budget: Number(e.target.value) });
-                    setErrors((er) => ({ ...er, budget: undefined }));
-                  }}
-                  className={inputClass(!!errors.budget)}
-                />
-                {errors.budget && (
-                  <p className="mt-1 text-xs text-red-600">{errors.budget}</p>
-                )}
-              </div>
-
-              {/* Ratings */}
-              <div>
-                <FieldLabel required>Minimum rating</FieldLabel>
-                <div className="flex gap-2">
-                  {ratingOptions.map((opt) => {
-                    const active = params.min_rating === opt.value;
-                    return (
-                      <button
-                        key={opt.label}
-                        type="button"
-                        onClick={() => {
-                          setParams({ ...params, min_rating: opt.value });
-                          setErrors((er) => ({ ...er, min_rating: undefined }));
+          {/* Form card */}
+          <div className="mt-10 rounded-2xl bg-white p-6 text-neutral-900 shadow-2xl ring-1 ring-black/10 sm:p-8">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid gap-4 md:grid-cols-2">
+                {/* Location */}
+                <div>
+                  <FieldLabel required>YOUR LOCATION</FieldLabel>
+                  <div className="relative">
+                    <MapPin className={iconWrap()} aria-hidden />
+                    {locations.length > 0 ? (
+                      <select
+                        required
+                        value={params.location}
+                        onChange={(e) => {
+                          setParams({ ...params, location: e.target.value });
+                          setErrors((er) => ({ ...er, location: undefined }));
                         }}
-                        className={cn(
-                          "flex flex-1 items-center justify-center gap-1 rounded-lg border py-2.5 text-sm font-medium transition-colors",
-                          active
-                            ? "border-2 border-[#E23744] bg-white text-[#E23744] shadow-sm"
-                            : "border-neutral-200 bg-neutral-50 text-neutral-600 hover:bg-neutral-100"
-                        )}
+                        className={cn(inputClass(!!errors.location), "pl-10")}
                       >
-                        {active && <Star className="h-3.5 w-3.5 fill-current" />}
-                        {opt.label}
-                      </button>
-                    );
-                  })}
+                        <option value="" disabled>
+                          e.g. Indra Nagar, City Centre
+                        </option>
+                        {locations.map((loc) => (
+                          <option key={loc} value={loc}>
+                            {loc}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        required
+                        type="text"
+                        placeholder="e.g. Indra Nagar, City Centre"
+                        value={params.location}
+                        onChange={(e) => {
+                          setParams({ ...params, location: e.target.value });
+                          setErrors((er) => ({ ...er, location: undefined }));
+                        }}
+                        className={cn(inputClass(!!errors.location), "pl-10")}
+                      />
+                    )}
+                  </div>
+                  {errors.location && (
+                    <p className="mt-1 text-xs text-red-600">{errors.location}</p>
+                  )}
                 </div>
-                {errors.min_rating && (
-                  <p className="mt-1 text-xs text-red-600">{errors.min_rating}</p>
+
+                {/* Cuisine */}
+                <div>
+                  <FieldLabel required>CUISINES</FieldLabel>
+                  <div className="relative">
+                    <UtensilsCrossed className={iconWrap()} aria-hidden />
+                    <input
+                      required
+                      type="text"
+                      placeholder="e.g. North Indian, Italian"
+                      value={params.cuisine}
+                      onChange={(e) => {
+                        setParams({ ...params, cuisine: e.target.value });
+                        setErrors((er) => ({ ...er, cuisine: undefined }));
+                      }}
+                      className={cn(inputClass(!!errors.cuisine), "pl-10")}
+                    />
+                  </div>
+                  {errors.cuisine && (
+                    <p className="mt-1 text-xs text-red-600">{errors.cuisine}</p>
+                  )}
+                </div>
+
+                {/* Rating */}
+                <div>
+                  <FieldLabel required>MINIMUM RATING</FieldLabel>
+                  <div className="relative">
+                    <Star className={iconWrap()} aria-hidden />
+                    <select
+                      required
+                      value={String(params.min_rating)}
+                      onChange={(e) => {
+                        setParams({ ...params, min_rating: Number(e.target.value) });
+                        setErrors((er) => ({ ...er, min_rating: undefined }));
+                      }}
+                      className={cn(inputClass(!!errors.min_rating), "pl-10")}
+                    >
+                      {ratingOptions.map((o) => (
+                        <option key={o.label} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {errors.min_rating && (
+                    <p className="mt-1 text-xs text-red-600">{errors.min_rating}</p>
+                  )}
+                </div>
+
+                {/* Budget */}
+                <div>
+                  <FieldLabel required>BUDGET</FieldLabel>
+                  <div className="relative">
+                    <IndianRupee className={iconWrap()} aria-hidden />
+                    <input
+                      required
+                      type="number"
+                      min={100}
+                      step={100}
+                      placeholder="e.g. 500-1000 (max ₹ for two)"
+                      value={params.budget || ""}
+                      onChange={(e) => {
+                        setParams({ ...params, budget: Number(e.target.value) });
+                        setErrors((er) => ({ ...er, budget: undefined }));
+                      }}
+                      className={cn(inputClass(!!errors.budget), "pl-10")}
+                    />
+                  </div>
+                  {errors.budget && (
+                    <p className="mt-1 text-xs text-red-600">{errors.budget}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Additional preferences */}
+              <div>
+                <FieldLabel required>ADDITIONAL PREFERENCES</FieldLabel>
+                <textarea
+                  required
+                  rows={2}
+                  placeholder="e.g. Quiet romantic, Rooftop, Vegan friendly"
+                  value={params.additional_preferences || ""}
+                  onChange={(e) => {
+                    setParams({ ...params, additional_preferences: e.target.value });
+                    setErrors((er) => ({ ...er, additional_preferences: undefined }));
+                  }}
+                  className={cn(inputClass(!!errors.additional_preferences), "resize-none")}
+                />
+                {errors.additional_preferences && (
+                  <p className="mt-1 text-xs text-red-600">{errors.additional_preferences}</p>
                 )}
               </div>
-            </div>
 
-            {/* Additional preferences — full width */}
-            <div>
-              <FieldLabel required>Additional preferences</FieldLabel>
-              <textarea
-                required
-                rows={2}
-                placeholder="e.g. family-friendly, outdoor seating, Butter Chicken"
-                value={params.additional_preferences || ""}
-                onChange={(e) => {
-                  setParams({ ...params, additional_preferences: e.target.value });
-                  setErrors((er) => ({ ...er, additional_preferences: undefined }));
-                }}
-                className={cn(inputClass(!!errors.additional_preferences), "resize-none")}
-              />
-              {errors.additional_preferences && (
-                <p className="mt-1 text-xs text-red-600">{errors.additional_preferences}</p>
-              )}
-            </div>
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full rounded-lg py-3.5 text-base font-semibold text-white shadow-md transition-opacity hover:opacity-95 disabled:opacity-60"
-              style={{ backgroundColor: ZOMATO_RED }}
-            >
-              {isLoading ? "Finding recommendations…" : "Get Recommendations"}
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full rounded-xl py-3.5 text-base font-semibold text-white shadow-md transition-opacity hover:opacity-95 disabled:opacity-60"
+                style={{ backgroundColor: ZOMATO_RED }}
+              >
+                {isLoading ? "Generating…" : "Generate Recommendations"}
+              </button>
+            </form>
+          </div>
         </motion.div>
 
         {/* Results */}
         {hasSearched && (
-          <div className="relative z-10 mt-8 w-full max-w-4xl">
+          <div className="mt-10 w-full max-w-6xl">
             {isLoading ? (
               <LoadingSkeleton count={4} />
             ) : results ? (
-              <div className="rounded-2xl bg-white p-6 shadow-xl ring-1 ring-neutral-200">
+              <div className="rounded-2xl bg-white/95 p-6 text-neutral-900 shadow-xl ring-1 ring-black/10 backdrop-blur">
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-                  <h2 className="text-lg font-semibold text-neutral-900">
+                  <h2 className="text-lg font-semibold">
                     Top {results.total_results} recommendations
                   </h2>
                   <span className="text-xs text-neutral-500">
@@ -325,19 +328,19 @@ export function ZomatoRecommendationScreen() {
                   </span>
                 </div>
                 {results.summary && (
-                  <p className="mb-4 text-sm text-neutral-600">{results.summary}</p>
+                  <p className="mb-4 text-sm text-neutral-700">{results.summary}</p>
                 )}
                 {results.rankings.length > 0 ? (
                   <div className="grid gap-4 md:grid-cols-2">
-                    {results.rankings.map((r, i) => (
+                    {results.rankings.map((r) => (
                       <RestaurantCard key={r.id} restaurant={r} />
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center text-sm text-neutral-600">
+                  <div className="text-center text-sm text-neutral-700">
                     <p>No restaurants match your criteria.</p>
                     {results.suggestions?.length > 0 && (
-                      <ul className="mt-3 space-y-1 text-left">
+                      <ul className="mx-auto mt-3 max-w-xl space-y-1 text-left">
                         {results.suggestions.map((s) => (
                           <li key={s}>• {s}</li>
                         ))}
@@ -349,18 +352,11 @@ export function ZomatoRecommendationScreen() {
             ) : null}
           </div>
         )}
-      </main>
 
-      {/* Footer */}
-      <footer className="relative z-20 mt-auto border-t border-neutral-200 bg-white px-4 py-4 text-center">
-        <p className="text-lg font-bold" style={{ color: ZOMATO_RED }}>
-          zomato
+        <p className="mt-10 text-center text-xs text-white/70">
+          {apiStatus}
         </p>
-        <p className="mt-1 text-xs text-neutral-500">
-          © {new Date().getFullYear()} Zomato AI · Restaurant recommendations powered by Groq
-        </p>
-        <p className="mt-2 text-xs text-neutral-400">{apiStatus}</p>
-      </footer>
+      </main>
     </div>
   );
 }
