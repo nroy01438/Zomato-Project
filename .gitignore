@@ -27,3 +27,6 @@ restaurant_recommendations.db
 frontend/.next/
 frontend/out/
 
+# TypeScript build artifacts
+*.tsbuildinfo
+

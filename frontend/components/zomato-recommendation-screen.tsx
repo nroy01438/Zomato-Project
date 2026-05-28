@@ -68,9 +68,6 @@ export function ZomatoRecommendationScreen() {
     if (!params.cuisine.trim()) next.cuisine = "Cuisine is required";
     if (!params.budget || params.budget <= 0) next.budget = "Budget is required (max ₹ for two)";
     if (!params.min_rating || params.min_rating < 1) next.min_rating = "Rating is required";
-    if (!params.additional_preferences?.trim()) {
-      next.additional_preferences = "Additional preferences are required";
-    }
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -91,7 +88,7 @@ export function ZomatoRecommendationScreen() {
         cuisine: params.cuisine.trim(),
         min_rating: params.min_rating,
         budget: Number(params.budget),
-        additional_preferences: params.additional_preferences?.trim(),
+        additional_preferences: params.additional_preferences?.trim() || undefined,
       };
       const response = await api.searchRestaurants(payload);
       setResults(response);
@@ -283,9 +280,8 @@ export function ZomatoRecommendationScreen() {
 
               {/* Additional preferences */}
               <div>
-                <FieldLabel required>ADDITIONAL PREFERENCES</FieldLabel>
+                <FieldLabel>ADDITIONAL PREFERENCES</FieldLabel>
                 <textarea
-                  required
                   rows={2}
                   placeholder="e.g. Quiet romantic, Rooftop, Vegan friendly"
                   value={params.additional_preferences || ""}
@@ -295,9 +291,6 @@ export function ZomatoRecommendationScreen() {
                   }}
                   className={cn(inputClass(!!errors.additional_preferences), "resize-none")}
                 />
-                {errors.additional_preferences && (
-                  <p className="mt-1 text-xs text-red-600">{errors.additional_preferences}</p>
-                )}
               </div>
 
               <button
